@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LatAm FinTalent | Agencia B2B</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Chart.js for the chart -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                        display: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .tab-content { display: none; opacity: 0; transition: opacity 0.5s ease; }
+        .tab-content.active { display: block; opacity: 1; }
+
+        .tab-btn.active {
+            background-color: rgba(51, 65, 85, 0.5);
+            color: #22d3ee;
+            border-color: #334155;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 selection:bg-cyan-500 selection:text-white">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-transparent py-6 border-b border-transparent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-earth-americas text-cyan-400 text-2xl"></i>
+                    <span class="font-display font-bold text-2xl tracking-tight text-white">LatAm <span class="text-cyan-400">FinTalent</span></span>
+                </div>
+                <div class="hidden md:flex gap-8 items-center">
+                    <a href="#servicios" class="text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Servicios</a>
+                    <a href="#mercado" class="text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">El Mercado</a>
+                    <a href="#contacto" class="px-5 py-2.5 rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold text-sm transition-all shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:shadow-[0_0_25px_rgba(6,182,212,0.5)]">
+                        Empezar ahora
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-cyan-900/40 via-slate-900 to-slate-900"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="max-w-2xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 mb-6">
+                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                        <span class="text-xs font-medium text-slate-300 tracking-wide uppercase">Agencia Oficial B2B</span>
+                    </div>
+                    <h1 class="text-5xl lg:text-7xl font-bold tracking-tight text-white leading-[1.1] mb-6 text-balance">
+                        Escale su Fintech en <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 block mt-2">América Latina</span>
+                    </h1>
+                    <p class="text-lg text-slate-400 mb-8 max-w-xl text-pretty leading-relaxed">
+                        Selección especializada de personal ejecutivo, ingeniería financiera y búsqueda de socios estratégicos B2B para impulsar su expansión en el mercado más dinámico del mundo.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#contacto" class="inline-flex justify-center items-center gap-2 px-8 py-4 rounded-full bg-cyan-500 text-slate-900 font-semibold text-base transition-all hover:bg-cyan-400">
+                            Agendar consulta <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="#servicios" class="inline-flex justify-center items-center gap-2 px-8 py-4 rounded-full bg-slate-800 text-white border border-slate-700 font-semibold text-base transition-all hover:bg-slate-700">
+                            Conocer nuestros servicios
+                        </a>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 to-blue-500/20 blur-3xl rounded-full"></div>
+                    <div class="relative bg-slate-800/50 backdrop-blur-xl border border-slate-700 rounded-3xl p-6 shadow-2xl">
+                        <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-6">Crecimiento Inversión Fintech LatAm (M USD)</h3>
+                        <div class="h-72 w-full relative">
+                            <canvas id="growthChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Divider -->
+    <div class="bg-slate-900 border-y border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-slate-800">
+                <div class="text-center px-4">
+                    <div class="text-4xl font-bold text-cyan-400 tabular-nums">150+</div>
+                    <div class="text-sm text-slate-500 mt-2 font-medium uppercase tracking-wider">Cargos Ejecutivos</div>
+                </div>
+                <div class="text-center px-4">
+                    <div class="text-4xl font-bold text-cyan-400 tabular-nums">12</div>
+                    <div class="text-sm text-slate-500 mt-2 font-medium uppercase tracking-wider">Países Cubiertos</div>
+                </div>
+                <div class="text-center px-4">
+                    <div class="text-4xl font-bold text-cyan-400 tabular-nums">45</div>
+                    <div class="text-sm text-slate-500 mt-2 font-medium uppercase tracking-wider">Alianzas Bancarias</div>
+                </div>
+                <div class="text-center px-4">
+                    <div class="text-4xl font-bold text-cyan-400 tabular-nums">98%</div>
+                    <div class="text-sm text-slate-500 mt-2 font-medium uppercase tracking-wider">Retención B2B</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <section id="servicios" class="py-24 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">Soluciones Integrales</h2>
+                <p class="text-slate-400 text-lg text-pretty">
+                    Resolvemos los principales obstáculos para la entrada e implantación en los ecosistemas financieros locales: desde talento clave hasta reguladores.
+                </p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-12">
+                <!-- Service Nav -->
+                <div class="lg:w-1/3">
+                    <div class="flex flex-col bg-slate-800/30 rounded-2xl p-2 border border-slate-800">
+                        <button onclick="switchTab('recruiting')" id="btn-recruiting" class="tab-btn active text-left px-6 py-4 rounded-xl transition-all duration-200 flex items-center gap-4 text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-transparent">
+                            <i class="fa-solid fa-user-tie text-xl w-6 text-center"></i>
+                            <span class="font-semibold text-lg">Búsqueda de Talentos IT</span>
+                        </button>
+                        <button onclick="switchTab('partnerships')" id="btn-partnerships" class="tab-btn text-left px-6 py-4 rounded-xl transition-all duration-200 flex items-center gap-4 text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-transparent">
+                            <i class="fa-solid fa-handshake text-xl w-6 text-center"></i>
+                            <span class="font-semibold text-lg">Alianzas B2B</span>
+                        </button>
+                        <button onclick="switchTab('compliance')" id="btn-compliance" class="tab-btn text-left px-6 py-4 rounded-xl transition-all duration-200 flex items-center gap-4 text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-transparent">
+                            <i class="fa-solid fa-scale-balanced text-xl w-6 text-center"></i>
+                            <span class="font-semibold text-lg">Expertise Legal y Compliance</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Service Details -->
+                <div class="lg:w-2/3">
+                    <!-- Recruiting -->
+                    <div id="tab-recruiting" class="tab-content active h-full">
+                        <div class="bg-slate-800/50 rounded-3xl p-8 lg:p-12 border border-slate-700 h-full">
+                            <div class="w-16 h-16 rounded-2xl bg-cyan-500/10 flex items-center justify-center mb-8 border border-cyan-500/20">
+                                <i class="fa-solid fa-user-tie text-3xl text-cyan-400"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-4">Búsqueda de Talentos IT</h3>
+                            <p class="text-slate-400 text-lg mb-8 leading-relaxed max-w-2xl">
+                                Reclutamiento de desarrolladores, ingenieros de datos y líderes técnicos con experiencia en el sector financiero.
+                            </p>
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-6 h-6 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                                        <i class="fa-solid fa-check text-cyan-400 text-xs"></i>
+                                    </div>
+                                    <span class="text-slate-300 font-medium">Perfiles Senior y Lead</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-6 h-6 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                                        <i class="fa-solid fa-check text-cyan-400 text-xs"></i>
+                                    </div>
+                                    <span class="text-slate-300 font-medium">Evaluación técnica</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-6 h-6 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                                        <i class="fa-solid fa-check text-cyan-400 text-xs"></i>
+                                    </div>
+                                    <span class="text-slate-300 font-medium">Onboarding cultural</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Partnerships -->
+                    <div id="tab-partnerships" class="tab-content h-full">
+                        <div class="bg-slate-800/50 rounded-3xl p-8 lg:p-12 border border-slate-700 h-full">
+                            <div class="w-16 h-16 rounded-2xl bg-cyan-500/10 flex items-center justify-center mb-8 border border-cyan-500/20">
+                                <i class="fa-solid fa-handshake text-3xl text-cyan-400"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-4">Alianzas B2B</h3>
+                            <p class="text-slate-400 text-lg mb-8 leading-relaxed max-w-2xl">
+                                Conectamos su empresa con bancos locales, pasarelas de pago y proveedores de servicios financieros en LatAm.
+                            </p>
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-6 h-6 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                                        <i class="fa-solid fa-check text-cyan-400 text-xs"></i>
+                                    </div>
+                                    <span class="text-slate-300 font-medium">Matchmaking corporativo</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-6 h-6 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                                        <i class="fa-solid fa-check text-cyan-400 text-xs"></i>
+                                    </div>
+                                    <span class="text-slate-300 font-medium">Negociación de contratos</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-6 h-6 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                                        <i class="fa-solid fa-check text-cyan-400 text-xs"></i>
+                                    </div>
+                                    <span class="text-slate-300 font-medium">Análisis de sinergias</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Compliance -->
+                    <div id="tab-compliance" class="tab-content h-full">
+                        <div class="bg-slate-800/50 rounded-3xl p-8 lg:p-12 border border-slate-700 h-full">
+                            <div class="w-16 h-16 rounded-2xl bg-cyan-500/10 flex items-center justify-center mb-8 border border-cyan-500/20">
+                                <i class="fa-solid fa-scale-balanced text-3xl text-cyan-400"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-4">Expertise Legal y Compliance</h3>
+                            <p class="text-slate-400 text-lg mb-8 leading-relaxed max-w-2xl">
+                                Navegue por las regulaciones financieras de México, Brasil, Colombia y más países con nuestra red de expertos.
+                            </p>
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-6 h-6 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                                        <i class="fa-solid fa-check text-cyan-400 text-xs"></i>
+                                    </div>
+                                    <span class="text-slate-300 font-medium">Regulación Fintech</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-6 h-6 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                                        <i class="fa-solid fa-check text-cyan-400 text-xs"></i>
+                                    </div>
+                                    <span class="text-slate-300 font-medium">KYC/AML local</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-6 h-6 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                                        <i class="fa-solid fa-check text-cyan-400 text-xs"></i>
+                                    </div>
+                                    <span class="text-slate-300 font-medium">Asesoría en licencias</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market Section -->
+    <section id="mercado" class="py-24 bg-slate-950 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <img 
+                        src="https://images.unsplash.com/photo-1758599543110-f9cf3903a2ad?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE4fHx8ZW58MHx8fHx8" 
+                        alt="business professionals shaking hands in a modern glass office" 
+                        class="rounded-3xl shadow-2xl border border-slate-800 object-cover w-full h-[500px]"
+                    />
+                </div>
+                <div>
+                    <h2 class="text-3xl lg:text-4xl font-bold tracking-tight text-white mb-6">
+                        El momento de LatAm es ahora
+                    </h2>
+                    <div class="space-y-8">
+                        <div>
+                            <h4 class="text-cyan-400 font-semibold mb-2">Población Sub-bancarizada</h4>
+                            <p class="text-slate-400">Más de 200 millones de personas en la región representan un mercado virgen para soluciones financieras digitales y neobancos.</p>
+                        </div>
+                        <div class="h-px bg-slate-800"></div>
+                        <div>
+                            <h4 class="text-cyan-400 font-semibold mb-2">Talento Técnico Competitivo</h4>
+                            <p class="text-slate-400">Ingenieros de clase mundial con compatibilidad de husos horarios (EST/PST) y afinidad cultural con mercados norteamericanos y europeos.</p>
+                        </div>
+                        <div class="h-px bg-slate-800"></div>
+                        <div>
+                            <h4 class="text-cyan-400 font-semibold mb-2">Marco Regulatorio Abierto</h4>
+                            <p class="text-slate-400">Avances como el Pix en Brasil y normativas de Open Banking están acelerando la adopción y permitiendo a nuevas firmas prosperar rápidamente.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="py-24 bg-cyan-900/10">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-slate-800/80 backdrop-blur-lg border border-slate-700 rounded-3xl p-8 lg:p-12 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-12 opacity-10">
+                    <i class="fa-solid fa-envelope text-9xl text-cyan-400"></i>
+                </div>
+
+                <div class="relative z-10" id="contact-form-container">
+                    <h2 class="text-3xl font-bold text-white mb-2">Hablemos de su proyecto</h2>
+                    <p class="text-slate-400 mb-8">Déjenos un mensaje y un especialista en mercado B2B se comunicará en menos de 24 horas.</p>
+
+                    <form id="contactForm" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Nombre Completo</label>
+                                <input 
+                                    required 
+                                    type="text" 
+                                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500" 
+                                    placeholder="Ej. Juan Pérez" 
+                                />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Email Corporativo</label>
+                                <input 
+                                    required 
+                                    type="email" 
+                                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500" 
+                                    placeholder="juan@empresa.com" 
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Tipo de Servicio Requerido</label>
+                            <select class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-slate-300 focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                                <option>Selección de Personal (Headhunting)</option>
+                                <option>Alianzas B2B y Partnerships</option>
+                                <option>Asesoría Regulatoria</option>
+                                <option>Otro</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Detalles del Proyecto</label>
+                            <textarea 
+                                required 
+                                rows="4" 
+                                class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 resize-none" 
+                                placeholder="Cuéntenos más acerca de sus objetivos en América Latina..."
+                            ></textarea>
+                        </div>
+                        <button 
+                            type="submit" 
+                            class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-bold py-4 px-8 rounded-xl transition-all"
+                        >
+                            Enviar Solicitud
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Success Message (Hidden by default) -->
+                <div id="successMessage" class="hidden relative z-10 bg-green-500/10 border border-green-500/20 rounded-xl p-6 text-center">
+                    <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-check text-2xl text-green-400"></i>
+                    </div>
+                    <h4 class="text-green-400 text-xl font-bold mb-2">¡Mensaje enviado!</h4>
+                    <p class="text-slate-300">Gracias por contactarnos. Revisaremos su solicitud pronto.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8 justify-between items-center">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-earth-americas text-cyan-400 text-xl"></i>
+                        <span class="font-display font-bold text-xl tracking-tight text-white">LatAm <span class="text-cyan-400">FinTalent</span></span>
+                    </div>
+                    <p class="text-slate-500 text-sm">
+                        Conectando el futuro financiero de América Latina a través del mejor talento y asociaciones estratégicas.
+                    </p>
+                </div>
+
+                <div class="flex gap-4 md:justify-center">
+                    <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:text-cyan-400 hover:bg-slate-700 transition-colors">
+                        <i class="fa-brands fa-linkedin-in w-full text-center"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:text-cyan-400 hover:bg-slate-700 transition-colors">
+                        <i class="fa-brands fa-twitter w-full text-center"></i>
+                    </a>
+                </div>
+
+                <div class="md:text-right text-sm text-slate-500">
+                    <p>© 2026 LatAm FinTalent. Todos los derechos reservados.</p>
+                    <div class="mt-2 space-x-4">
+                        <a href="#" class="hover:text-slate-300 transition-colors">Aviso Legal</a>
+                        <a href="#" class="hover:text-slate-300 transition-colors">Privacidad</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-slate-900/90', 'backdrop-blur-md', 'border-slate-800');
+                navbar.classList.remove('bg-transparent', 'border-transparent');
+                navbar.style.paddingTop = '1rem';
+                navbar.style.paddingBottom = '1rem';
+            } else {
+                navbar.classList.add('bg-transparent', 'border-transparent');
+                navbar.classList.remove('bg-slate-900/90', 'backdrop-blur-md', 'border-slate-800');
+                navbar.style.paddingTop = '1.5rem';
+                navbar.style.paddingBottom = '1.5rem';
+            }
+        });
+
+        // Tabs functionality
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            // Reset all buttons
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('active', 'text-cyan-400', 'border-slate-700');
+            });
+
+            // Show selected tab
+            document.getElementById('tab-' + tabId).classList.add('active');
+            // Highlight selected button
+            const btn = document.getElementById('btn-' + tabId);
+            btn.classList.add('active');
+        }
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('contact-form-container').style.display = 'none';
+            document.getElementById('successMessage').classList.remove('hidden');
+        });
+
+        // Chart.js Area Chart Setup
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('growthChart').getContext('2d');
+
+            // Create gradient
+            let gradient = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, 'rgba(34, 211, 238, 0.4)'); // text-cyan-400
+            gradient.addColorStop(1, 'rgba(34, 211, 238, 0)');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                    datasets: [{
+                        label: 'Crecimiento',
+                        data: [120, 250, 380, 550, 720, 950],
+                        borderColor: '#22d3ee',
+                        backgroundColor: gradient,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#0f172a',
+                        pointBorderColor: '#22d3ee',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1e293b',
+                            titleColor: '#f8fafc',
+                            bodyColor: '#22d3ee',
+                            borderColor: '#334155',
+                            borderWidth: 1,
+                            padding: 10,
+                            displayColors: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false, drawBorder: false },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        y: {
+                            grid: { color: '#334155', borderDash: [3, 3], drawBorder: false },
+                            ticks: { color: '#94a3b8' }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
